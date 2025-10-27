@@ -1,0 +1,12 @@
+{
+  "name": "node-react",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "license": "ISC",
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "packageManager": "pnpm@10.11.0"
+}
