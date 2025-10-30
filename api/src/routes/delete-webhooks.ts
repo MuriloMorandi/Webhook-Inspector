@@ -16,7 +16,7 @@ export const deleteWebhook: FastifyPluginAsyncZod = async (app) => {
           id: z.uuidv7(),
         }),
         response: {
-          200: z.void(),
+          204: z.void(),
           404: z.object({ message: z.string() }),
         },
       },
@@ -33,7 +33,7 @@ export const deleteWebhook: FastifyPluginAsyncZod = async (app) => {
         return reply.status(404).send({ message: 'Webhook not found' })
       }
 
-      return reply.send()
+      return reply.status(204).send()
     },
   )
 }

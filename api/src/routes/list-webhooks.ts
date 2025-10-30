@@ -13,7 +13,7 @@ export const listWebhooks: FastifyPluginAsyncZod = async (app) => {
         summary: 'List Webhooks',
         tags: ['Webhooks'],
         querystring: z.object({
-          limit: z.number().min(1).max(100).default(20),
+          limit: z.coerce.number().min(1).max(100).default(20),
           cursor: z.string().optional(),
         }),
         response: {

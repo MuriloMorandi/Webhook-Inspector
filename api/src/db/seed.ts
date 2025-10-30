@@ -4,6 +4,8 @@ import { webhooks } from './schema'
 import { faker } from '@faker-js/faker'
 
 async function seed() {
+  await dbClient.delete(webhooks)
+
   const webhookEvents = [
     'checkout.session.completed',
     'payment_intent.succeeded',
@@ -18,23 +20,27 @@ async function seed() {
 
   const data = Array.from({ length: 60 }).map(() => {
     const event = faker.helpers.arrayElement(webhookEvents)
-    const body = JSON.stringify({
-      id: `evt_${faker.string.alphanumeric(24)}`,
-      object: 'event',
-      type: event,
-      data: {
-        object: {
-          id: `pi_${faker.string.alphanumeric(24)}`,
-          amount: faker.number.int({ min: 1000, max: 100000 }),
-          currency: 'usd',
-          status: faker.helpers.arrayElement([
-            'succeeded',
-            'pending',
-            'failed',
-          ]),
+    const body = JSON.stringify(
+      {
+        id: `evt_${faker.string.alphanumeric(24)}`,
+        object: 'event',
+        type: event,
+        data: {
+          object: {
+            id: `pi_${faker.string.alphanumeric(24)}`,
+            amount: faker.number.int({ min: 1000, max: 100000 }),
+            currency: 'usd',
+            status: faker.helpers.arrayElement([
+              'succeeded',
+              'pending',
+              'failed',
+            ]),
+          },
         },
       },
-    })
+      null,
+      2,
+    )
 
     return {
       id: uuidv7(),
@@ -44,7 +50,6 @@ async function seed() {
       statusCode: faker.helpers.arrayElement([200, 200, 200, 200, 500]),
       contentType: 'application/json',
       contentLength: body.length,
-      queryParams: { test: 'true' },
       headers: {
         'user-agent': faker.internet.userAgent(),
         'stripe-signature': faker.string.alphanumeric(64),
