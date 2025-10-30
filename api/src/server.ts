@@ -3,12 +3,15 @@ import {
   serializerCompiler,
   validatorCompiler,
   jsonSchemaTransform,
-  type ZodTypeProvider
+  type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
 import { fastifyCors } from '@fastify/cors'
 import { fastifySwagger } from '@fastify/swagger'
 import ScalarAPIReference from '@scalar/fastify-api-reference'
 import { listWebhooks } from './routes/list-webhooks'
+import { getWebhook } from './routes/get-webhooks'
+import { deleteWebhook } from './routes/delete-webhooks'
+import { capureWebhook } from './routes/capture-webhook'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -37,6 +40,9 @@ app.register(ScalarAPIReference, {
 })
 
 app.register(listWebhooks)
+app.register(getWebhook)
+app.register(deleteWebhook)
+app.register(capureWebhook)
 
 app.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
   console.log('Server is running on http://localhost:3333')
