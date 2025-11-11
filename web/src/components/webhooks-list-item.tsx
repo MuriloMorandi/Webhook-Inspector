@@ -12,28 +12,37 @@ interface WebhooksListItem {
     pathname: string
     createdAt: Date
   }
+  onWebhookChecked: (webhookId: string) => void
+  isChecked: boolean
 }
 
-export function WebhooksListItem({ webhook }: WebhooksListItem) {
+export function WebhooksListItem({
+  webhook,
+  onWebhookChecked,
+  isChecked,
+}: WebhooksListItem) {
   const queryClient = useQueryClient()
-  
+
   const { mutate: deleteWebhook } = useMutation({
     mutationFn: async (id: string) => {
-      await fetch(`http://localhost:3333/webhook/${id}`, { 
-        method: 'DELETE'
+      await fetch(`${import.meta.env.VITE_API_URL}/webhook/${id}`, {
+        method: 'DELETE',
       })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey:['webkooks']
+        queryKey: ['webkooks'],
       })
-    }
+    },
   })
 
   return (
     <div className="rounded-lg transition-colors duration-150 hover:bg-zinc700/30 group">
       <div className="flex items-start gap-3 px-4 py-2.5">
-        <Checkbox />
+        <Checkbox
+          onCheckedChange={() => onWebhookChecked(webhook.id)}
+          checked={isChecked}
+        />
 
         <Link
           to="/webhooks/$id"
