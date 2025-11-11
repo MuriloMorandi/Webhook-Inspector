@@ -48,6 +48,6 @@ app.register(capureWebhook)
 app.register(generateHandle)
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
-  console.log(`Server is running on http://localhost:${env.PORT}`)  
+  console.log(`Server is running on http://localhost:${env.PORT}`)
   console.log(`Docs are available on http://localhost:${env.PORT}/docs`)
 })

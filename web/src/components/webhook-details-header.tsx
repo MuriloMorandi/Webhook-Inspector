@@ -11,7 +11,7 @@ export function WebhookDetailsHeader({
   createdAt,
   ip,
   method,
-  pathname
+  pathname,
 }: WebhookDetailsHeaderProps) {
   return (
     <div className="space-y-4 border-b border-zinc-700 p-6">
@@ -27,7 +27,7 @@ export function WebhookDetailsHeader({
         <span className="w-px h-4 bg-zinc-700"></span>
         <div className="flex items-center gap-1 text-sm text-zinc-400">
           <span>at </span>
-          <span>{ createdAt.toLocaleString('en-US')}</span>
+          <span>{createdAt.toLocaleString('en-US')}</span>
         </div>
       </div>
     </div>

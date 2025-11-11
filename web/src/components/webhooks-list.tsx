@@ -123,24 +123,21 @@ export function WebhooksList() {
             )}
           </div>
         )}
-        
       </div>
 
       {!!generateHandleCode && (
         <Dialog.Root
           defaultOpen
-          onOpenChange={(value) => value ? null : setGenerateHandleCode(null)}
+          onOpenChange={(value) => (value ? null : setGenerateHandleCode(null))}
         >
           <Dialog.Overlay className="fixed inset-0 bg-black/60 data-[state=open]:animate-overlayShow" />
-          <Dialog.Content
-            className="flex flex-col items-center justify-center fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[800px] -translate-x-1/2 -translate-y-1/2 z-20">
+          <Dialog.Content className="flex flex-col items-center justify-center fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[800px] -translate-x-1/2 -translate-y-1/2 z-20">
             <Dialog.Title className="m-0 text-[17px] font-medium text-mauve12 bg-zinc-900 w-full p-4">
-					    Generate Handle
+              Generate Handle
             </Dialog.Title>
             <Dialog.Description className="bg-zinc-900  p-4 rounded-lg border-zinc-800 w-full max-h-[400px] overflow-y-auto">
               <CodeBlock language="typescript" code={generateHandleCode} />
             </Dialog.Description>
-            
           </Dialog.Content>
         </Dialog.Root>
       )}

@@ -2,9 +2,9 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { z } from 'zod'
 import { webhooks } from '@/db/schema'
 import { dbClient } from '@/db'
-import { inArray } from 'drizzle-orm';
-import { generateText } from 'ai';
-import { google } from '@ai-sdk/google';
+import { inArray } from 'drizzle-orm'
+import { generateText } from 'ai'
+import { google } from '@ai-sdk/google'
 
 export const generateHandle: FastifyPluginAsyncZod = async (app) => {
   app.post(
@@ -26,16 +26,15 @@ export const generateHandle: FastifyPluginAsyncZod = async (app) => {
     async (request, reply) => {
       const { webhooksIds } = request.body
 
-
       const result = await dbClient
         .select({
-          body: webhooks.body
+          body: webhooks.body,
         })
         .from(webhooks)
         .where(inArray(webhooks.id, webhooksIds))
-      
-      const webhooksBodies = result.map(r => r.body).join('\n\n')
-      
+
+      const webhooksBodies = result.map((r) => r.body).join('\n\n')
+
       const { text } = await generateText({
         model: google('gemini-2.5-flash-lite'),
         prompt: `
@@ -56,8 +55,7 @@ export const generateHandle: FastifyPluginAsyncZod = async (app) => {
           Below are the webhook request bodies you should analyze:
           ${webhooksBodies}
         `.trim(),
-      });
-      
+      })
 
       return reply.status(201).send({ code: text })
     },
